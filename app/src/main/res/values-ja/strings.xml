@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">お手軽チェックリスト</string>
+    
+    <string name="label_entry_name">タイトル</string>
+    <string name="label_items">アイテム</string>
+    
+    <string name="button_add_item">項目を追加</string>
+    <string name="button_enter_edit_mode">項目を編集</string>
+    <string name="button_add">チェックリストを追加</string>
+    <string name="button_del">削除</string>
+    <string name="button_mod">編集</string>
+    <string name="button_exit_edit_mode">編集を終わる</string>
+    <string name="button_up">上へ</string>
+    <string name="button_down">下へ</string>
+    <string name="button_check">チェックする！</string>
+    <string name="button_all_checked">全部チェックした！</string>
+    
+    <string name="menu_about">このアプリについて</string>
+    
+    <string name="dialog_title_input_label">新しい項目名を入力</string>
+    <string name="dialog_title_change_label">項目名の変更</string>
+    <string name="dialog_title_confirm">確認</string>
+    
+    <string name="msg_about">日常生活で忘れがちなことをチェックするためのアプリです。</string>
+    <string name="msg_delete_confirm">選択された項目は削除されますがよろしいですか？</string>
+
+    <string name="sample_title">携行品</string>
+    <string-array name="sample_items">
+        <item>財布</item>
+        <item>鍵</item>
+        <item>携帯電話</item>
+        <item>手帳</item>
+        <item>名刺</item>
+    </string-array>
+</resources>

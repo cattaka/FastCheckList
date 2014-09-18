@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyTheme" parent="@android:style/Theme.Light">
+        <item name="android:windowBackground">@color/bgcolor_solid</item>
+    </style>
+    
+    <style name="TextAppearance.Title" parent="@android:style/TextAppearance.Large">
+    </style>
+    <style name="TextAppearance.Item" parent="@android:style/TextAppearance.Large">
+    </style>
+    <style name="ListItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:background">@drawable/bgcolor_highlighted</item>
+    </style>
+</resources>

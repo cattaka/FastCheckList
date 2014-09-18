@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.cattaka.android.fastchecklist.view.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ListItem"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <Button android:id="@+id/button_trash"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/button_del"
+        />
+    <TextView android:id="@+id/text_label"
+        style="@style/TextAppearance.Item"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_weight="1"
+        />
+    <Button android:id="@+id/button_up"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/button_up"
+        />
+    <Button android:id="@+id/button_down"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/button_down"
+        />
+</net.cattaka.android.fastchecklist.view.CheckableLinearLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Fast Checklist</string>
+    
+    <string name="label_entry_name">Title</string>
+    <string name="label_items">Items</string>
+    
+    <string name="button_add_item">Add item</string>
+    <string name="button_enter_edit_mode">Modify check list</string>
+    <string name="button_add">Add check list</string>
+    <string name="button_del">Del</string>
+    <string name="button_mod">Mod</string>
+    <string name="button_exit_edit_mode">Exit edit mode</string>
+    <string name="button_up">Up</string>
+    <string name="button_down">Down</string>
+    <string name="button_check">Check this!</string>
+    <string name="button_all_checked">I checked all!</string>
+    
+    <string name="menu_about">About</string>
+    
+    <string name="dialog_title_input_label">Input Label</string>
+    <string name="dialog_title_change_label">Change Label</string>
+    <string name="dialog_title_confirm">Confirm</string>
+    
+    <string name="msg_about">The application to check that the forgetful in daily life.</string>
+    <string name="msg_delete_confirm">It will be deleted. Are you sure?</string>
+
+    <string name="sample_title">Baggages</string>
+    <string-array name="sample_items">
+        <item>Wallet</item>
+        <item>Keys</item>
+        <item>Mobile phone</item>
+        <item>Datebook</item>
+        <item>Name card</item>
+    </string-array>
+</resources>
