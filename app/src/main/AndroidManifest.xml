@@ -4,9 +4,10 @@
     android:versionCode="1"
     android:versionName="1.0.0" >
 
-    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="4"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".MyAppliction"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" android:theme="@style/MyTheme">
         <activity

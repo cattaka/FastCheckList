@@ -7,8 +7,8 @@ android {
 
     defaultConfig {
         applicationId "net.cattaka.android.fastchecklist"
-        minSdkVersion 4
-        targetSdkVersion 4
+        minSdkVersion 7
+        targetSdkVersion 7
 
         testApplicationId "net.cattaka.android.fastchecklist.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -32,4 +32,5 @@ apt {
 dependencies {
     apt 'net.cattaka:cathandsgendroid-apt:0.3.0'
     compile 'net.cattaka:cathandsgendroid-core:0.3.0'
+    debugCompile 'net.cattaka:telnetsqlite:1.0.0'
 }
