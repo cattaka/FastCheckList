@@ -4,7 +4,8 @@ import net.cattaka.util.cathandsgendroid.annotation.DataModel;
 import net.cattaka.util.cathandsgendroid.annotation.DataModelAttrs;
 
 @DataModel(
-		find={"id","entryId:sort+"}
+		find={"id","entryId:sort+"},
+        query={"MaxSort:select max(sort) as sort from checkListItem where entryId=?"}
 	)
 public class CheckListItem {
 	@DataModelAttrs(primaryKey=true)
