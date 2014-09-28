@@ -19,7 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import net.cattaka.android.fastchecklist.R;
-import net.cattaka.android.fastchecklist.db.DbHandler;
+import net.cattaka.android.fastchecklist.db.OpenHelper;
 import net.cattaka.android.fastchecklist.model.CheckListEntry;
 import net.cattaka.android.fastchecklist.util.ContextUtil;
 
@@ -34,6 +34,8 @@ public class FastCheckListActivity extends Activity
 
     // UI系
     private int mTargetEntryIndex;
+
+    private OpenHelper mOpenHelper;
 
     class AdapterEx extends ArrayAdapter<CheckListEntry> {
         public AdapterEx(List<CheckListEntry> entries) {
@@ -110,7 +112,9 @@ public class FastCheckListActivity extends Activity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main);
-        
+
+        mOpenHelper = new OpenHelper(this);
+
         findViewById(R.id.button_add_entry).setOnClickListener(this);
         findViewById(R.id.button_enter_edit_mode).setOnClickListener(this);
         findViewById(R.id.button_exit_edit_mode).setOnClickListener(this);
@@ -126,13 +130,7 @@ public class FastCheckListActivity extends Activity
         }
         List<CheckListEntry> entries;
         {
-            DbHandler dbHandler = new DbHandler(this, FastCheckListConstants.DB_NAME, true);
-            try {
-                dbHandler.openReadableDatabase();
-                entries = dbHandler.findEntry();
-            } finally {
-                dbHandler.closeDatabase();
-            }
+            entries = mOpenHelper.findEntry();
             if (entries == null) {
                 entries = new ArrayList<CheckListEntry>();
             }
@@ -149,13 +147,7 @@ public class FastCheckListActivity extends Activity
             return;
         }
         CheckListEntry entry = mEntriesAdapter.getItem(pos);
-        DbHandler dbHandler = new DbHandler(FastCheckListActivity.this, FastCheckListConstants.DB_NAME);
-        try {
-            dbHandler.openWritableDatabase();
-            dbHandler.deleteEntry(entry.getId());
-        } finally {
-            dbHandler.closeDatabase();
-        }
+        mOpenHelper.deleteEntry(entry.getId());
         mEntriesAdapter.remove(entry);
     }
     private void swapEntries(int pos1, int pos2) {
@@ -164,14 +156,8 @@ public class FastCheckListActivity extends Activity
         }
         CheckListEntry entry1 = mEntriesAdapter.getItem(pos1);
         CheckListEntry entry2 = mEntriesAdapter.getItem(pos2);
-        DbHandler dbHandler = new DbHandler(FastCheckListActivity.this, FastCheckListConstants.DB_NAME);
-        try {
-            dbHandler.openWritableDatabase();
-            dbHandler.swapEntriesSort(entry1.getId(), entry2.getId());
-        } finally {
-            dbHandler.closeDatabase();
-        }
-        
+        mOpenHelper.swapEntriesSort(entry1.getId(), entry2.getId());
+
         mEntriesAdapter.remove(entry1);
         mEntriesAdapter.remove(entry2);
         if (pos1 < pos2) {

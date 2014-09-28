@@ -7,7 +7,8 @@ import java.util.List;
 
 @DataModel(
 		find={"id",":sort+"},
-		unique={"title"}
+		unique={"title"},
+        query={"MaxSortNo:select max(sort) as sort from checkListEntry"}
 	)
 public class CheckListEntry {
 	@DataModelAttrs(primaryKey=true)

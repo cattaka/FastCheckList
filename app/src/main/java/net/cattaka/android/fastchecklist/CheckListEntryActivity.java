@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.cattaka.android.fastchecklist.R;
-import net.cattaka.android.fastchecklist.db.DbHandler;
+import net.cattaka.android.fastchecklist.db.OpenHelper;
 import net.cattaka.android.fastchecklist.model.CheckListEntry;
 import net.cattaka.android.fastchecklist.model.CheckListItem;
 import net.cattaka.android.fastchecklist.view.ItemEntryDialog;
@@ -113,24 +113,20 @@ public class CheckListEntryActivity extends Activity implements
         };
     };
 
+    private OpenHelper mOpenHelper;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_entry);
 
+        mOpenHelper = new OpenHelper(this);
         {
             Intent intent = getIntent();
             Long entryId = intent.getLongExtra(EXTRA_TARGET_ENTRY_ID, -1L);
             if (entryId != null && entryId >= 0L) {
-                DbHandler dbHandler = new DbHandler(this,
-                        FastCheckListConstants.DB_NAME);
-                try {
-                    dbHandler.openReadableDatabase();
-                    mEntry = dbHandler.findEntry(entryId, true);
-                } finally {
-                    dbHandler.closeDatabase();
-                }
+                mEntry = mOpenHelper.findEntry(entryId, true);
             }
         }
 
@@ -191,14 +187,7 @@ public class CheckListEntryActivity extends Activity implements
                 }
             }
             { // DBへの書き込みの実施
-                DbHandler dbHandler = new DbHandler(this,
-                        FastCheckListConstants.DB_NAME);
-                try {
-                    dbHandler.openWritableDatabase();
-                    dbHandler.registerEntry(mEntry);
-                } finally {
-                    dbHandler.closeDatabase();
-                }
+                mOpenHelper.registerEntry(mEntry);
             }
             finish();
         } else if (v.getId() == R.id.button_cancel) {
