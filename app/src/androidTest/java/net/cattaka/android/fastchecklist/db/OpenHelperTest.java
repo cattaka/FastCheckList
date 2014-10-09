@@ -9,15 +9,15 @@ import android.test.InstrumentationTestCase;
 import android.test.RenamingDelegatingContext;
 import android.util.Log;
 
-public class DbHandlerTest extends InstrumentationTestCase {
+public class OpenHelperTest extends InstrumentationTestCase {
     private Context mContext;
 
-    private DbHandler mDbHandler;
+    private OpenHelper mOpenHelper;
 
     protected void setUp() throws Exception {
         super.setUp();
         mContext = new RenamingDelegatingContext(getInstrumentation().getTargetContext(), "test_");
-        mDbHandler = new DbHandler(mContext, "mydb");
+        mOpenHelper = new OpenHelper(mContext, "mydb");
 
         File file = mContext.getDatabasePath("myfile");
         Log.d("Debug", file.toString());
@@ -26,36 +26,30 @@ public class DbHandlerTest extends InstrumentationTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDbHandler.closeDatabase();
-        mDbHandler = null;
+        mOpenHelper.close();
+        mOpenHelper = null;
         mContext = null;
     }
 
     public void testFind() {
-        mDbHandler.openWritableDatabase();
-
-        assertEquals(0, mDbHandler.findEntry().size());
+        assertEquals(0, mOpenHelper.findEntry().size());
 
         CheckListEntry entry = new CheckListEntry();
         entry.setTitle("title");
-        mDbHandler.registerEntry(entry);
-        assertEquals(1, mDbHandler.findEntry().size());
+        mOpenHelper.registerEntry(entry);
+        assertEquals(1, mOpenHelper.findEntry().size());
     }
 
     public void testRegister() {
-        mDbHandler.openWritableDatabase();
-
-        assertEquals(0, mDbHandler.findEntry().size());
+        assertEquals(0, mOpenHelper.findEntry().size());
 
         for (int i = 0; i < 10; i++) {
             CheckListEntry entry = new CheckListEntry();
             entry.setTitle("title" + i);
-            mDbHandler.registerEntry(entry);
+            mOpenHelper.registerEntry(entry);
         }
-        assertEquals(10, mDbHandler.findEntry().size());
+        assertEquals(10, mOpenHelper.findEntry().size());
 
-        mDbHandler.closeDatabase();
-        mDbHandler.openWritableDatabase();
-        assertEquals(0, mDbHandler.findEntry().size());
+        assertEquals(0, mOpenHelper.findEntry().size());
     }
 }
