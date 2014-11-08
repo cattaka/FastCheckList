@@ -30,7 +30,7 @@ apt {
 }
 
 dependencies {
-    apt 'net.cattaka:cathandsgendroid-apt:0.4.0'
-    compile 'net.cattaka:cathandsgendroid-core:0.4.0'
+    apt 'net.cattaka:cathandsgendroid-apt:0.4.1'
+    compile 'net.cattaka:cathandsgendroid-core:0.4.1'
     debugCompile 'net.cattaka:telnetsqlite:1.0.0'
 }
