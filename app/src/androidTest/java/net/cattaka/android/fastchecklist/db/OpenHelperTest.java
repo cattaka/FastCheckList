@@ -32,24 +32,22 @@ public class OpenHelperTest extends InstrumentationTestCase {
     }
 
     public void testFind() {
-        assertEquals(0, mOpenHelper.findEntry().size());
+        assertEquals(1, mOpenHelper.findEntry().size());
 
         CheckListEntry entry = new CheckListEntry();
         entry.setTitle("title");
         mOpenHelper.registerEntry(entry);
-        assertEquals(1, mOpenHelper.findEntry().size());
+        assertEquals(2, mOpenHelper.findEntry().size());
     }
 
     public void testRegister() {
-        assertEquals(0, mOpenHelper.findEntry().size());
+        assertEquals(1, mOpenHelper.findEntry().size());
 
         for (int i = 0; i < 10; i++) {
             CheckListEntry entry = new CheckListEntry();
             entry.setTitle("title" + i);
             mOpenHelper.registerEntry(entry);
         }
-        assertEquals(10, mOpenHelper.findEntry().size());
-
-        assertEquals(0, mOpenHelper.findEntry().size());
+        assertEquals(11, mOpenHelper.findEntry().size());
     }
 }
