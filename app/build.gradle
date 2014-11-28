@@ -7,8 +7,8 @@ android {
 
     defaultConfig {
         applicationId "net.cattaka.android.fastchecklist"
-        minSdkVersion 7
-        targetSdkVersion 7
+        minSdkVersion 8
+        targetSdkVersion 14
 
         testApplicationId "net.cattaka.android.fastchecklist.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"

@@ -19,6 +19,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import net.cattaka.android.fastchecklist.R;
+import net.cattaka.android.fastchecklist.core.ContextLogic;
+import net.cattaka.android.fastchecklist.core.ContextLogicFactory;
 import net.cattaka.android.fastchecklist.db.OpenHelper;
 import net.cattaka.android.fastchecklist.model.CheckListEntry;
 import net.cattaka.android.fastchecklist.util.ContextUtil;
@@ -28,6 +30,8 @@ public class FastCheckListActivity extends Activity
 {
     private static final int DIALOG_ABOUT = 2;
     private static final int DIALOG_TRASH = 3;
+
+    private ContextLogic mContextLogic = ContextLogicFactory.createContextLogic(this);
 
     private AdapterEx mEntriesAdapter;
     private boolean mEditModeFlag = false;
@@ -113,7 +117,7 @@ public class FastCheckListActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main);
 
-        mOpenHelper = new OpenHelper(this);
+        mOpenHelper = mContextLogic.createOpenHelper();
 
         findViewById(R.id.button_add_entry).setOnClickListener(this);
         findViewById(R.id.button_enter_edit_mode).setOnClickListener(this);

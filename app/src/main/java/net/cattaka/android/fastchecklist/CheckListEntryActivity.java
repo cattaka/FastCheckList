@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.cattaka.android.fastchecklist.R;
+import net.cattaka.android.fastchecklist.core.ContextLogic;
+import net.cattaka.android.fastchecklist.core.ContextLogicFactory;
 import net.cattaka.android.fastchecklist.db.OpenHelper;
 import net.cattaka.android.fastchecklist.model.CheckListEntry;
 import net.cattaka.android.fastchecklist.model.CheckListItem;
@@ -61,6 +63,8 @@ public class CheckListEntryActivity extends Activity implements
             return convertView;
         }
     }
+
+    private ContextLogic mContextLogic = ContextLogicFactory.createContextLogic(this);
 
     private CheckListEntry mEntry;
     private AdapterEx mItemsAdapter;
@@ -121,7 +125,7 @@ public class CheckListEntryActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_entry);
 
-        mOpenHelper = new OpenHelper(this);
+        mOpenHelper = mContextLogic.createOpenHelper();
         {
             Intent intent = getIntent();
             Long entryId = intent.getLongExtra(EXTRA_TARGET_ENTRY_ID, -1L);
