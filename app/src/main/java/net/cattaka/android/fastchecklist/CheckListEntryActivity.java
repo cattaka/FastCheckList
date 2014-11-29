@@ -81,41 +81,45 @@ public class CheckListEntryActivity extends Activity implements
                     return;
                 }
             }
-            mTargetEntryIndex = position;
-
-            if (v.getId() == R.id.button_up) {
-                if (position > 0) {
-                    CheckListItem item = mItemsAdapter.getItem(position);
-                    mItemsAdapter.remove(item);
-                    mItemsAdapter.insert(item, position - 1);
-                }
-            } else if (v.getId() == R.id.button_down) {
-                if (position < mItemsAdapter.getCount() - 1) {
-                    CheckListItem item = mItemsAdapter.getItem(position);
-                    mItemsAdapter.remove(item);
-                    mItemsAdapter.insert(item, position + 1);
-                }
-            } else if (v.getId() == R.id.button_trash) {
-                showDialog(DIALOG_TRASH);
-            } else {
-                CheckListItem item = mItemsAdapter.getItem(position);
-                ItemEntryDialog dialog = new ItemEntryDialog(
-                        CheckListEntryActivity.this);
-                dialog.setTitle(R.string.dialog_title_change_label);
-                dialog.setup(new ItemEntryDialog.OnItemEntryListener() {
-                    @Override
-                    public void onOk(CheckListItem item) {
-                        mItemsAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancel() {
-                    }
-                }, item);
-                dialog.show();
-            }
+            onClickItem(v.getId(), position);
         };
     };
+
+    void onClickItem(int viewId, int position) {
+        mTargetEntryIndex = position;
+
+        if (viewId == R.id.button_up) {
+            if (position > 0) {
+                CheckListItem item = mItemsAdapter.getItem(position);
+                mItemsAdapter.remove(item);
+                mItemsAdapter.insert(item, position - 1);
+            }
+        } else if (viewId == R.id.button_down) {
+            if (position < mItemsAdapter.getCount() - 1) {
+                CheckListItem item = mItemsAdapter.getItem(position);
+                mItemsAdapter.remove(item);
+                mItemsAdapter.insert(item, position + 1);
+            }
+        } else if (viewId == R.id.button_trash) {
+            showDialog(DIALOG_TRASH);
+        } else {
+            CheckListItem item = mItemsAdapter.getItem(position);
+            ItemEntryDialog dialog = new ItemEntryDialog(
+                    this);
+            dialog.setTitle(R.string.dialog_title_change_label);
+            dialog.setup(new ItemEntryDialog.OnItemEntryListener() {
+                @Override
+                public void onOk(CheckListItem item) {
+                    mItemsAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancel() {
+                }
+            }, item);
+            dialog.show();
+        }
+    }
 
     private OpenHelper mOpenHelper;
 
