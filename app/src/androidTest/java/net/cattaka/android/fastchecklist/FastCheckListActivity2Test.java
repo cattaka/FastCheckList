@@ -34,7 +34,7 @@ public class FastCheckListActivity2Test extends BaseTestCase<FastCheckListActivi
         }
     }
 
-    public void testShowThreeData() throws Throwable{
+    public void testShowThreeDataAndScreenTransition() throws Throwable{
         {   // Creating dummy data.
             clearData();
             createTestData(3, 4);

@@ -1,7 +1,10 @@
 package net.cattaka.android.fastchecklist.test;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.RenamingDelegatingContext;
 import android.view.KeyEvent;
@@ -35,6 +38,22 @@ public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTes
                     return new ContextLogic(mContext);
                 }
             });
+        }
+        {   // Unlock keyguard
+            KeyguardManager km = (KeyguardManager) getInstrumentation().getTargetContext().getSystemService(Context.KEYGUARD_SERVICE);
+            if (km.inKeyguardRestrictedInputMode()) {
+                Intent intent = new Intent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setClassName("net.cattaka.android.testutil", "net.cattaka.android.testutil.UnlockKeyguardActivity");
+                try {
+                    getInstrumentation().getTargetContext().startActivity(intent);
+                    while (km.inKeyguardRestrictedInputMode()) {
+                        SystemClock.sleep(100);
+                    }
+                } catch (Exception e) {
+                    // ignore
+                }
+            }
         }
     }
 
