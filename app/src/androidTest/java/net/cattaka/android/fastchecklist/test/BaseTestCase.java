@@ -17,6 +17,7 @@ import net.cattaka.android.fastchecklist.model.CheckListEntry;
 import net.cattaka.android.fastchecklist.model.CheckListItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by cattaka on 14/11/28.
@@ -64,21 +65,24 @@ public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTes
         }
     }
 
-    public void createTestData(int entries, int items) {
+    public List<CheckListEntry> createTestData(int entriesNum, int itemsNum) {
+        List<CheckListEntry> entries = new ArrayList<CheckListEntry>();
         // Creating dummy data.
         OpenHelper openHelper = new OpenHelper(mContext);
-        for (int i = 0; i < entries; i++) {
+        for (int i = 0; i < entriesNum; i++) {
             CheckListEntry entry = new CheckListEntry();
             entry.setTitle("Entry " + i);
             entry.setSort((long) i);
             entry.setItems(new ArrayList<CheckListItem>());
-            for (int j = 0; j < items; j++) {
+            for (int j = 0; j < itemsNum; j++) {
                 CheckListItem item = new CheckListItem();
                 item.setLabel("Item " + j);
                 item.setSort((long)j);
                 entry.getItems().add(item);
             }
             openHelper.registerEntry(entry);
+            entries.add(entry);
         }
+        return entries;
     }
 }
