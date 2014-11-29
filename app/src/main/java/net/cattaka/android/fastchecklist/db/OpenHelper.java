@@ -87,6 +87,16 @@ public class OpenHelper extends SQLiteOpenHelper {
         }
     }
 
+    public List<CheckListHistory> findHistory(Long id)
+            throws DbException {
+        SQLiteDatabase db = getReadableDatabase();
+        try {
+            return CheckListHistoryCatHands.findByEntryIdOrderByIdDesc(db, -1, id);
+        } finally {
+            db.close();
+        }
+    }
+
     public boolean deleteEntry(Long id) {
         SQLiteDatabase db = getWritableDatabase();
         boolean flag = false;
