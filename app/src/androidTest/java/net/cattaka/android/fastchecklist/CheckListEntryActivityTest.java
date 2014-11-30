@@ -21,11 +21,16 @@ public class CheckListEntryActivityTest extends BaseTestCase<CheckListEntryActiv
     /**
      * Test start and exit.
      */
-    public void testStartAndExitActivity_new() {
-        CheckListEntryActivity activity = getActivity();
+    public void testStartAndExitActivity_new() throws Throwable {
+        final CheckListEntryActivity activity = getActivity();
         assertFalse(activity.isFinishing());
-        {   // Test finish by back key
-            getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+        {   // Test finish by button_cancel
+            runTestOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    activity.findViewById(R.id.button_cancel).performClick();
+                }
+            });
             assertTrue(activity.isFinishing());
         }
     }
@@ -33,7 +38,7 @@ public class CheckListEntryActivityTest extends BaseTestCase<CheckListEntryActiv
     /**
      * Test start and exit.
      */
-    public void testStartAndExitActivity() {
+    public void testStartAndExitActivity() throws Throwable {
         List<CheckListEntry> entries;
         {   // Creating dummy data.
             clearData();
@@ -45,10 +50,15 @@ public class CheckListEntryActivityTest extends BaseTestCase<CheckListEntryActiv
             intent.putExtra(CheckListEntryActivity.EXTRA_TARGET_ENTRY_ID, testTarget.getId());
             setActivityIntent(intent);
         }
-        CheckListEntryActivity activity = getActivity();
+        final CheckListEntryActivity activity = getActivity();
         assertFalse(activity.isFinishing());
-        {   // Test finish by back key
-            getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+        {   // Test finish by button_cancel
+            runTestOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    activity.findViewById(R.id.button_cancel).performClick();
+                }
+            });
             assertTrue(activity.isFinishing());
         }
     }

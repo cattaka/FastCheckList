@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.RenamingDelegatingContext;
@@ -40,14 +41,14 @@ public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTes
                 }
             });
         }
-        {   // Unlock keyguard
+        {   // Unlock keyguard and screen on
+            // need https://github.com/cattaka/JUnitHelper
             KeyguardManager km = (KeyguardManager) getInstrumentation().getTargetContext().getSystemService(Context.KEYGUARD_SERVICE);
-            if (km.inKeyguardRestrictedInputMode()) {
-                Intent intent = new Intent();
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setClassName("net.cattaka.android.testutil", "net.cattaka.android.testutil.UnlockKeyguardActivity");
+            PowerManager pm = (PowerManager) getInstrumentation().getTargetContext().getSystemService(Context.POWER_SERVICE);
+            if (km.inKeyguardRestrictedInputMode() || !pm.isScreenOn()) {
+                Intent intent = new Intent("net.cattaka.android.junithelper.ExportedReceiver.unlock");
                 try {
-                    getInstrumentation().getTargetContext().startActivity(intent);
+                    getInstrumentation().getTargetContext().sendBroadcast(intent);
                     while (km.inKeyguardRestrictedInputMode()) {
                         SystemClock.sleep(100);
                     }
