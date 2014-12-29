@@ -14,9 +14,9 @@ build:
     - setup-android-emulator:
         target: android-21
     - script:
-        name: run gradle connectedAndroidTestDebug
+        name: run gradle createDebugCoverageReport
         code: |
-          gradle --project-cache-dir=$WERCKER_CACHE_DIR connectedAndroidTestDebug
+          gradle --project-cache-dir=$WERCKER_CACHE_DIR createDebugCoverageReport
     - script:
         name: run gradle assembleDebug
         code: |
