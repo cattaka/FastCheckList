@@ -46,14 +46,11 @@ public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTes
             KeyguardManager km = (KeyguardManager) getInstrumentation().getTargetContext().getSystemService(Context.KEYGUARD_SERVICE);
             PowerManager pm = (PowerManager) getInstrumentation().getTargetContext().getSystemService(Context.POWER_SERVICE);
             if (km.inKeyguardRestrictedInputMode() || !pm.isScreenOn()) {
-                Intent intent = new Intent("net.cattaka.android.junithelper.ExportedReceiver.unlock");
-                try {
-                    getInstrumentation().getTargetContext().sendBroadcast(intent);
-                    while (km.inKeyguardRestrictedInputMode()) {
-                        SystemClock.sleep(100);
-                    }
-                } catch (Exception e) {
-                    // ignore
+                Intent intent = new Intent(getInstrumentation().getContext(), UnlockKeyguardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getInstrumentation().getTargetContext().startActivity(intent);
+                while (km.inKeyguardRestrictedInputMode()) {
+                    SystemClock.sleep(100);
                 }
             }
         }

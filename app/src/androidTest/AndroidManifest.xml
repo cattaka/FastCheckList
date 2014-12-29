@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.cattaka.android.fastchecklist.test"
+    >
+    <application>
+        <activity android:name="net.cattaka.android.fastchecklist.test.UnlockKeyguardActivity" android:exported="true"/>
+    </application>
+
+</manifest>
