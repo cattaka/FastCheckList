@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 14
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "net.cattaka.android.fastchecklist"
         minSdkVersion 8
-        targetSdkVersion 14
+        targetSdkVersion 21
 
         testApplicationId "net.cattaka.android.fastchecklist.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -16,15 +16,18 @@ android {
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
 }
 
 apt {
     arguments {
-        androidManifestFile variant.processResources.manifestFile
+        androidManifestFile variant.outputs[0].processResources.manifestFile
         resourcePackageName 'net.cattaka.android.fastchecklist'
     }
 }
