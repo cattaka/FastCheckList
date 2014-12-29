@@ -1,0 +1,32 @@
+box: sugoi-wada/android@1.0.7-r8
+build:
+  steps:
+    - script:
+        name: show base information
+        code: |
+          gradle -v
+          echo $ANDROID_HOME
+          echo $ANDROID_SDK_VERSION
+          echo $ANDROID_BUILD_TOOLS
+          echo $ANDROID_UPDATE_FILTER
+    - android-sdk-update:
+        filter: sysimg-21
+    - setup-android-emulator:
+        target: android-21
+    - script:
+        name: run gradle connectedAndroidTestDebug
+        code: |
+          gradle --project-cache-dir=$WERCKER_CACHE_DIR connectedAndroidTestDebug
+    - script:
+        name: run gradle assembleDebug
+        code: |
+          pwd
+          gradle --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR assembleDebug
+  after-steps:
+    # Use the build results
+    - script:
+        name: inspect build result
+        code: |
+          pwd
+          ls -la ./app/build/outputs/
+          cp -r ./app/build/outputs/* $WERCKER_REPORT_ARTIFACTS_DIR
