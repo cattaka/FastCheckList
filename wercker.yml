@@ -1,4 +1,4 @@
-box: sugoi-wada/android@1.0.7-r8
+box: cattaka/android@1.0.8-r1
 build:
   steps:
     - script:
