@@ -35,5 +35,4 @@ deploy:
     - script:
         name: upload to deploygate
         code: |
-          lftp -u ${DEPLOY_FTP_USER},${DEPLOY_FTP_PASS} -e "set ssl:verify-certificate no;mirror -R ${WERCKER_REPORT_ARTIFACTS_DIR} fastchecklist/" ${DEPLOY_FTP_SERVER}
-
+          lftp -u ${DEPLOY_FTP_USER},${DEPLOY_FTP_PASS} -e "set ssl:verify-certificate no;rm -r fastchecklist;mirror -R ${WERCKER_REPORT_ARTIFACTS_DIR} fastchecklist/;quit" ${DEPLOY_FTP_SERVER}
