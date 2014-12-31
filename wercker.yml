@@ -29,10 +29,10 @@ build:
         code: |
           pwd
           ls -la ./app/build/outputs/
-          cp -r ./app/build/outputs/* ${WERCKER_REPORT_ARTIFACTS_DIR}
+          cp -r ./app/build/outputs/* ${WERCKER_OUTPUT_DIR}
 deploy:
   steps:
     - script:
         name: upload to deploygate
         code: |
-          lftp -u ${DEPLOY_FTP_USER},${DEPLOY_FTP_PASS} -e "set ssl:verify-certificate no;mirror --delete -R ${WERCKER_REPORT_ARTIFACTS_DIR} fastchecklist/;quit" ${DEPLOY_FTP_SERVER}
+          lftp -u ${DEPLOY_FTP_USER},${DEPLOY_FTP_PASS} -e "set ssl:verify-certificate no;mirror --delete -R ./app/build/outputs/ fastchecklist/;quit" ${DEPLOY_FTP_SERVER}
