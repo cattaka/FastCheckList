@@ -29,7 +29,7 @@ build:
         code: |
           pwd
           ls -la ./app/build/outputs/
-          cp -r ./app/build/outputs/* ${WERCKER_OUTPUT_DIR}
+          cp -r ./app/build/outputs/* ${WERCKER_REPORT_ARTIFACTS_DIR}
 deploy:
   steps:
     - script:
