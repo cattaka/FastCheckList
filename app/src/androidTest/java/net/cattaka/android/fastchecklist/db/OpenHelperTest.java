@@ -6,8 +6,6 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.RenamingDelegatingContext;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static android.support.test.espresso.matcher.ViewMatchers.*;
@@ -16,21 +14,20 @@ import static org.hamcrest.Matchers.is;
 public class OpenHelperTest extends InstrumentationTestCase {
     private OpenHelper mOpenHelper;
 
-    @Before
-    protected void before() throws Exception {
+    @Override
+    protected void setUp() throws Exception {
         super.setUp();
         Context context = new RenamingDelegatingContext(getInstrumentation().getTargetContext(), "test_");
         mOpenHelper = new OpenHelper(context);
     }
 
-    @After
-    protected void after() throws Exception {
+    @Override
+    protected void tearDown() throws Exception {
         super.tearDown();
         mOpenHelper.close();
         mOpenHelper = null;
     }
 
-    @Test
     public void testInsertSelect() {
         assertEquals(1, mOpenHelper.findEntry().size());
 
@@ -49,7 +46,6 @@ public class OpenHelperTest extends InstrumentationTestCase {
         }
     }
 
-    @Test
     public void testFind() {
         assertEquals(1, mOpenHelper.findEntry().size());
 
@@ -59,7 +55,6 @@ public class OpenHelperTest extends InstrumentationTestCase {
         assertEquals(2, mOpenHelper.findEntry().size());
     }
 
-    @Test
     public void testRegister() {
         assertEquals(1, mOpenHelper.findEntry().size());
 

@@ -119,7 +119,7 @@ public class CheckListEntryActivityTest extends BaseTestCase<CheckListEntryActiv
             assertTrue(activity.isFinishing());
         }
         {   // Check new item is added on the tail.
-            OpenHelper openHelper = new OpenHelper(mContext);
+            OpenHelper openHelper = mContextLogic.createOpenHelper();
             List<CheckListEntry> entries = openHelper.findEntry();
             CheckListEntry entry = entries.get(entries.size() - 1);
             assertEquals("Test Title", entry.getTitle());

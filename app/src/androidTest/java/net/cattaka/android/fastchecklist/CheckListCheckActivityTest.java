@@ -59,7 +59,7 @@ public class CheckListCheckActivityTest extends BaseTestCase<CheckListCheckActiv
         }
         CheckListEntry testTarget = entries.get(1);
         {   // Check history is empty
-            OpenHelper openHelper = new OpenHelper(mContext);
+            OpenHelper openHelper = mContextLogic.createOpenHelper();
             List<CheckListHistory> histories = openHelper.findHistory(testTarget.getId());
             assertEquals(0, histories.size());
         }
@@ -104,7 +104,7 @@ public class CheckListCheckActivityTest extends BaseTestCase<CheckListCheckActiv
             assertTrue(activity.isFinishing());
         }
         {   // Check history has 1 item.
-            OpenHelper openHelper = new OpenHelper(mContext);
+            OpenHelper openHelper = mContextLogic.createOpenHelper();
             List<CheckListHistory> histories = openHelper.findHistory(testTarget.getId());
             assertEquals(1, histories.size());
         }

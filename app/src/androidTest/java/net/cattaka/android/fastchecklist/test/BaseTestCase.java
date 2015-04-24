@@ -8,9 +8,7 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.RenamingDelegatingContext;
-import android.view.KeyEvent;
 
-import net.cattaka.android.fastchecklist.FastCheckListActivity;
 import net.cattaka.android.fastchecklist.core.ContextLogic;
 import net.cattaka.android.fastchecklist.core.ContextLogicFactory;
 import net.cattaka.android.fastchecklist.db.OpenHelper;
@@ -24,7 +22,7 @@ import java.util.List;
  * Created by cattaka on 14/11/28.
  */
 public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTestCase2<T> {
-    protected RenamingDelegatingContext mContext;
+    protected ContextLogic mContextLogic;
 
     public BaseTestCase(Class<T> tClass) {
         super(tClass);
@@ -32,17 +30,17 @@ public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTes
 
     protected void setUp() throws Exception {
         super.setUp();
-        mContext = new RenamingDelegatingContext(getInstrumentation().getTargetContext(), "test_");
+        Context context = getInstrumentation().getTargetContext();
+        mContextLogic = new TestContextLogic(context);
         {   // Replace ContextLogicFactory to use RenamingDelegatingContext.
             ContextLogicFactory.replaceInstance(new ContextLogicFactory() {
                 @Override
                 public ContextLogic newInstance(Context context) {
-                    return new ContextLogic(mContext);
+                    return mContextLogic;
                 }
             });
         }
         {   // Unlock keyguard and screen on
-            // need https://github.com/cattaka/JUnitHelper
             KeyguardManager km = (KeyguardManager) getInstrumentation().getTargetContext().getSystemService(Context.KEYGUARD_SERVICE);
             PowerManager pm = (PowerManager) getInstrumentation().getTargetContext().getSystemService(Context.POWER_SERVICE);
             if (km.inKeyguardRestrictedInputMode() || !pm.isScreenOn()) {
@@ -57,7 +55,7 @@ public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTes
     }
 
     public void clearData() {
-        OpenHelper openHelper = new OpenHelper(mContext);
+        OpenHelper openHelper = mContextLogic.createOpenHelper();
         for (CheckListEntry entry : openHelper.findEntry()) {
             openHelper.deleteEntry(entry.getId());
         }
@@ -66,7 +64,7 @@ public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTes
     public List<CheckListEntry> createTestData(int entriesNum, int itemsNum) {
         List<CheckListEntry> entries = new ArrayList<CheckListEntry>();
         // Creating dummy data.
-        OpenHelper openHelper = new OpenHelper(mContext);
+        OpenHelper openHelper = mContextLogic.createOpenHelper();
         for (int i = 0; i < entriesNum; i++) {
             CheckListEntry entry = new CheckListEntry();
             entry.setTitle("Entry " + i);

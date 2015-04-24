@@ -17,7 +17,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class MyAdapterTest extends InstrumentationTestCase {
-    @Test
     public void testGetView() {
         List<CheckListItem> dummys = new ArrayList<>();
         {   // ダミーデータを作る
