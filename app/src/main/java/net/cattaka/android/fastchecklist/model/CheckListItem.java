@@ -13,8 +13,18 @@ public class CheckListItem {
 	private Long entryId;
 	private Long sort;
 	private String label;
-	
-	public Long getId() {
+
+    public CheckListItem() {
+    }
+
+    public CheckListItem(Long id, Long entryId, Long sort, String label) {
+        this.id = id;
+        this.entryId = entryId;
+        this.sort = sort;
+        this.label = label;
+    }
+
+    public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
