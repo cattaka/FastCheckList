@@ -8,6 +8,7 @@ import android.widget.CheckedTextView;
 import net.cattaka.android.fastchecklist.model.CheckListItem;
 
 import org.hamcrest.Matchers;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class MyAdapterTest extends InstrumentationTestCase {
+    @Test
     public void testGetView() {
         List<CheckListItem> dummys = new ArrayList<>();
         {   // ダミーデータを作る
