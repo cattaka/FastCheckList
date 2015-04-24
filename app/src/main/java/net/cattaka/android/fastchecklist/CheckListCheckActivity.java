@@ -2,9 +2,8 @@ package net.cattaka.android.fastchecklist;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import net.cattaka.android.fastchecklist.R;
+import net.cattaka.android.fastchecklist.adapter.MyAdapter;
 import net.cattaka.android.fastchecklist.core.ContextLogic;
 import net.cattaka.android.fastchecklist.core.ContextLogicFactory;
 import net.cattaka.android.fastchecklist.db.OpenHelper;
@@ -15,40 +14,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class CheckListCheckActivity extends Activity implements View.OnClickListener {
     public static final String EXTRA_TARGET_ENTRY_ID = "TARGET_ENTRY_ID";
-    class AdapterEx extends ArrayAdapter<CheckListItem> {
-        public AdapterEx(List<CheckListItem> items) {
-            super(CheckListCheckActivity.this, R.layout.layout_check_item, items);
-        }
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            CheckListItem item = getItem(position);
-            if (convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(CheckListCheckActivity.this);
-                convertView = inflater.inflate(R.layout.layout_check_item, null);
-            }
-            convertView.setTag(position);
-            
-            CheckedTextView textLabel = (CheckedTextView) convertView;
-            textLabel.setText(item.getLabel());
-            return convertView;
-        }
-    }
 
     private ContextLogic mContextLogic = ContextLogicFactory.createContextLogic(this);
 
     private CheckListEntry mEntry;
-    private AdapterEx mItemsAdapter;
+    private MyAdapter mItemsAdapter;
     private OpenHelper mOpenHelper;
     
     /** Called when the activity is first created. */
@@ -77,7 +54,7 @@ public class CheckListCheckActivity extends Activity implements View.OnClickList
         
         TextView textTitle = (TextView) findViewById(R.id.text_title);
         textTitle.setText(mEntry.getTitle());
-        mItemsAdapter = new AdapterEx(new ArrayList<CheckListItem>(mEntry.getItems()));
+        mItemsAdapter = new MyAdapter(this, new ArrayList<CheckListItem>(mEntry.getItems()));
         ListView listView = (ListView) findViewById(R.id.list_items);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(mItemsAdapter);
