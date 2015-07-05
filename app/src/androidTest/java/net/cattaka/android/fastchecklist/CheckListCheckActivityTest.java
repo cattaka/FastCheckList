@@ -9,6 +9,7 @@ import net.cattaka.android.fastchecklist.db.OpenHelper;
 import net.cattaka.android.fastchecklist.model.CheckListEntry;
 import net.cattaka.android.fastchecklist.model.CheckListHistory;
 import net.cattaka.android.fastchecklist.test.BaseTestCase;
+import net.cattaka.android.fastchecklist.test.TestUtil;
 
 import org.hamcrest.Matchers;
 
@@ -28,10 +29,16 @@ public class CheckListCheckActivityTest extends BaseTestCase<CheckListCheckActiv
      * Test start and exit.
      */
     public void testStartAndExitActivity() {
-        CheckListCheckActivity activity = getActivity();
+        final CheckListCheckActivity activity = getActivity();
         assertFalse(activity.isFinishing());
         {   // Test finish by back key
             getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+            TestUtil.waitForBoolean(new TestUtil.BooleanFunc() {
+                @Override
+                public boolean run() {
+                    return activity.isFinishing();
+                }
+            }, 3000);
             assertTrue(activity.isFinishing());
         }
     }
