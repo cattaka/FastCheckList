@@ -22,6 +22,16 @@ import net.cattaka.android.fastchecklist.test.BaseTestCase;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
+
 public class FastCheckListActivity2Test extends BaseTestCase<FastCheckListActivity> {
     public FastCheckListActivity2Test() {
         super(FastCheckListActivity.class);
@@ -57,12 +67,10 @@ public class FastCheckListActivity2Test extends BaseTestCase<FastCheckListActivi
             Instrumentation.ActivityMonitor monitor = new Instrumentation.ActivityMonitor(CheckListCheckActivity.class.getName(), null, true);
             getInstrumentation().addMonitor(monitor);
             try {
-                runTestOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.getChildAt(0).findViewById(R.id.button_check).performClick();
-                    }
-                });
+                setSelection(listView, 0);
+                CheckListEntry entry = ((CheckListEntry)listView.getItemAtPosition(0));
+                onView(allOf(withId(R.id.button_check), hasSibling(withText(entry.getTitle()))))
+                        .perform(click());
                 assertEquals(1, monitor.getHits());
             } finally {
                  getInstrumentation().removeMonitor(monitor);
@@ -87,7 +95,7 @@ public class FastCheckListActivity2Test extends BaseTestCase<FastCheckListActivi
         assertFalse(activity.isFinishing());
         final ListView listView = (ListView) activity.findViewById(R.id.list_entries);
         {   // Test number of entries
-            assertEquals(3,listView.getCount());
+            assertEquals(3, listView.getCount());
         }
         {
             {   // Check visiblity
@@ -99,13 +107,8 @@ public class FastCheckListActivity2Test extends BaseTestCase<FastCheckListActivi
                 assertEquals(View.VISIBLE, listView.getChildAt(0).findViewById(R.id.button_check).getVisibility());
             }
             {
-                runTestOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        activity.findViewById(R.id.button_enter_edit_mode).performClick();
-                    }
-                });
-                getInstrumentation().waitForIdleSync();
+                onView(withId(R.id.button_enter_edit_mode))
+                        .perform(click());
             }
             {   // Check visiblity
                 assertEquals(View.GONE, activity.findViewById(R.id.button_enter_edit_mode).getVisibility());
@@ -116,13 +119,8 @@ public class FastCheckListActivity2Test extends BaseTestCase<FastCheckListActivi
                 assertEquals(View.GONE, listView.getChildAt(0).findViewById(R.id.button_check).getVisibility());
             }
             {
-                runTestOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        activity.findViewById(R.id.button_exit_edit_mode).performClick();
-                    }
-                });
-                getInstrumentation().waitForIdleSync();
+                onView(withId(R.id.button_exit_edit_mode))
+                        .perform(click());
             }
             {   // Check visiblity
                 assertEquals(View.VISIBLE, activity.findViewById(R.id.button_enter_edit_mode).getVisibility());
@@ -157,40 +155,24 @@ public class FastCheckListActivity2Test extends BaseTestCase<FastCheckListActivi
         }
         {
             {   // Enter edit mode
-                runTestOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        activity.findViewById(R.id.button_enter_edit_mode).performClick();
-                    }
-                });
-                getInstrumentation().waitForIdleSync();
+                onView(withId(R.id.button_enter_edit_mode))
+                        .perform(click());
             }
             {   // Sort up
-                runTestOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.getChildAt(1).findViewById(R.id.button_up).performClick();
-                    }
-                });
-                getInstrumentation().waitForIdleSync();
+                setSelection(listView, 1);
+                CheckListEntry entry = ((CheckListEntry)listView.getItemAtPosition(1));
+                onView(allOf(withId(R.id.button_up), hasSibling(withText(entry.getTitle()))))
+                    .perform(click());
             }
             {   // Sort down
-                runTestOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.getChildAt(1).findViewById(R.id.button_down).performClick();
-                    }
-                });
-                getInstrumentation().waitForIdleSync();
+                setSelection(listView, 1);
+                CheckListEntry entry = ((CheckListEntry)listView.getItemAtPosition(1));
+                onView(allOf(withId(R.id.button_down), hasSibling(withText(entry.getTitle()))))
+                        .perform(click());
             }
             {   // Exit edit mode
-                runTestOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        activity.findViewById(R.id.button_exit_edit_mode).performClick();
-                    }
-                });
-                getInstrumentation().waitForIdleSync();
+                onView(withId(R.id.button_exit_edit_mode))
+                        .perform(click());
             }
         }
         {   // Check items have correct order after sort.
@@ -198,5 +180,14 @@ public class FastCheckListActivity2Test extends BaseTestCase<FastCheckListActivi
             assertEquals(entries.get(2).getTitle(), ((CheckListEntry)listView.getItemAtPosition(1)).getTitle());
             assertEquals(entries.get(0).getTitle(), ((CheckListEntry)listView.getItemAtPosition(2)).getTitle());
         }
+    }
+
+    private void setSelection(final ListView listView, final int position) throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                listView.setSelection(position);
+            }
+        });
     }
 }

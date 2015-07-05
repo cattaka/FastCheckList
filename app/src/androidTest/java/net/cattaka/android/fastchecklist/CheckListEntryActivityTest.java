@@ -13,6 +13,11 @@ import net.cattaka.android.fastchecklist.test.BaseTestCase;
 
 import java.util.List;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
 public class CheckListEntryActivityTest extends BaseTestCase<CheckListEntryActivity> {
     public CheckListEntryActivityTest() {
         super(CheckListEntryActivity.class);
@@ -25,12 +30,8 @@ public class CheckListEntryActivityTest extends BaseTestCase<CheckListEntryActiv
         final CheckListEntryActivity activity = getActivity();
         assertFalse(activity.isFinishing());
         {   // Test finish by button_cancel
-            runTestOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    activity.findViewById(R.id.button_cancel).performClick();
-                }
-            });
+            onView(withId(R.id.button_cancel))
+                    .perform(click());
             assertTrue(activity.isFinishing());
         }
     }
@@ -53,12 +54,8 @@ public class CheckListEntryActivityTest extends BaseTestCase<CheckListEntryActiv
         final CheckListEntryActivity activity = getActivity();
         assertFalse(activity.isFinishing());
         {   // Test finish by button_cancel
-            runTestOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    activity.findViewById(R.id.button_cancel).performClick();
-                }
-            });
+            onView(withId(R.id.button_cancel))
+                    .perform(click());
             assertTrue(activity.isFinishing());
         }
     }
@@ -81,12 +78,8 @@ public class CheckListEntryActivityTest extends BaseTestCase<CheckListEntryActiv
         final CheckListEntryActivity activity = getActivity();
         assertFalse(activity.isFinishing());
         {   // Test finish by click button_ok
-            runTestOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    activity.findViewById(R.id.button_cancel).performClick();
-                }
-            });
+            onView(withId(R.id.button_cancel))
+                    .perform(click());
             assertTrue(activity.isFinishing());
         }
     }
@@ -101,21 +94,12 @@ public class CheckListEntryActivityTest extends BaseTestCase<CheckListEntryActiv
         final CheckListEntryActivity activity = getActivity();
         assertFalse(activity.isFinishing());
         {   // Input title to EditText
-            runTestOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    EditText editTitle = (EditText) activity.findViewById(R.id.edit_title);
-                    editTitle.setText("Test Title");
-                }
-            });
+            onView(withId(R.id.edit_title))
+                    .perform(typeText("Test Title"));
         }
         {   // Test finish by button_ok
-            runTestOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    activity.findViewById(R.id.button_ok).performClick();
-                }
-            });
+            onView(withId(R.id.button_ok))
+                    .perform(click());
             assertTrue(activity.isFinishing());
         }
         {   // Check new item is added on the tail.

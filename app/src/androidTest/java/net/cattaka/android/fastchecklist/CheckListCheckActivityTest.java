@@ -1,10 +1,8 @@
 
 package net.cattaka.android.fastchecklist;
 
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.ListView;
 
 import net.cattaka.android.fastchecklist.db.OpenHelper;
@@ -12,7 +10,14 @@ import net.cattaka.android.fastchecklist.model.CheckListEntry;
 import net.cattaka.android.fastchecklist.model.CheckListHistory;
 import net.cattaka.android.fastchecklist.test.BaseTestCase;
 
+import org.hamcrest.Matchers;
+
 import java.util.List;
+
+import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class CheckListCheckActivityTest extends BaseTestCase<CheckListCheckActivity> {
     public CheckListCheckActivityTest() {
@@ -38,12 +43,8 @@ public class CheckListCheckActivityTest extends BaseTestCase<CheckListCheckActiv
         final CheckListCheckActivity activity = getActivity();
         assertFalse(activity.isFinishing());
         {   // Test finish by click button_ok
-            runTestOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    activity.findViewById(R.id.button_cancel).performClick();
-                }
-            });
+            onView(withId(R.id.button_cancel))
+                    .perform(click());
             assertTrue(activity.isFinishing());
         }
     }
@@ -81,12 +82,10 @@ public class CheckListCheckActivityTest extends BaseTestCase<CheckListCheckActiv
                 }
                 {   // Check items
                     final int t = i;
-                    runTestOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            listView.performItemClick(listView, t, -1);
-                        }
-                    });
+                    Object item = listView.getItemAtPosition(i);
+                    onData(Matchers.is(item))
+                            .inAdapterView(withId(R.id.list_items))
+                            .perform(click());
                 }
                 getInstrumentation().waitForIdleSync();
             }
@@ -95,12 +94,8 @@ public class CheckListCheckActivityTest extends BaseTestCase<CheckListCheckActiv
             }
         }
         {   // Test finish by click button_ok
-            runTestOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    activity.findViewById(R.id.button_ok).performClick();
-                }
-            });
+            onView(withId(R.id.button_ok))
+                    .perform(click());
             assertTrue(activity.isFinishing());
         }
         {   // Check history has 1 item.

@@ -11,7 +11,7 @@ android {
         targetSdkVersion 21
 
         testApplicationId "net.cattaka.android.fastchecklist.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -40,8 +40,8 @@ dependencies {
     apt 'net.cattaka:cathandsgendroid-apt:0.4.1'
     compile 'net.cattaka:cathandsgendroid-core:0.4.1'
     debugCompile 'net.cattaka:telnetsqlite:1.0.0'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
+    androidTestCompile 'com.android.support.test:runner:0.3'
     androidTestCompile 'org.mockito:mockito-core:1.10.19'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 }
