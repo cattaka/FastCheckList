@@ -4,7 +4,7 @@
 
 general:
     artifacts:
-        - /home/ubuntu/FastCheckList/app/build/outputs/apk/
+        - /home/ubuntu/FastCheckList/app/build/outputs/
 
 machine:
     environment:
@@ -26,4 +26,3 @@ test:
             timeout: 1800
         - (./gradlew assemble):
             timeout: 360
-        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
