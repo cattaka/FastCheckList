@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
@@ -43,7 +44,11 @@ public class BaseTestCase<T extends Activity> extends ActivityInstrumentationTes
         {   // Unlock keyguard and screen on
             KeyguardManager km = (KeyguardManager) getInstrumentation().getTargetContext().getSystemService(Context.KEYGUARD_SERVICE);
             PowerManager pm = (PowerManager) getInstrumentation().getTargetContext().getSystemService(Context.POWER_SERVICE);
-            if (km.inKeyguardRestrictedInputMode() || !pm.isScreenOn()) {
+            boolean locked = false;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                locked = km.isKeyguardLocked();
+            }
+            if (locked || km.inKeyguardRestrictedInputMode() || !pm.isScreenOn()) {
                 Intent intent = new Intent(getInstrumentation().getContext(), UnlockKeyguardActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getInstrumentation().getTargetContext().startActivity(intent);
