@@ -31,8 +31,8 @@ android {
 
 apt {
     arguments {
-        androidManifestFile variant.outputs[0].processResources.manifestFile
-        resourcePackageName 'net.cattaka.android.fastchecklist'
+        resourcePackageName android.defaultConfig.applicationId
+        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
     }
 }
 
